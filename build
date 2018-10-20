@@ -283,7 +283,7 @@ sub check_needs()
 
 sub get_remote_name()
 {
-	if ($git[0] =~ m,^(http|git|git\+ssh|ssh):\/\/linuxtv.org\/(.*),) {
+	if ($git[0] =~ m,^(https|http|git|git\+ssh|ssh):\/\/linuxtv.org\/(.*),) {
 		my $name = $2;
 		$name =~ s,^/git,,;
 		$name =~ s,\.git$,,g;
@@ -291,7 +291,15 @@ sub get_remote_name()
 
 		return ($name, 0);
 	}
-	if (!($git[0] =~ m,^(http|git|git\+ssh|ssh):\/\/,)) {
+	if ($git[0] =~ m,^(https|http|git|git\+ssh|ssh):\/\/github.com\/(.*),) {
+		my $name = $2;
+		$name =~ s,^/git,,;
+		$name =~ s,\.git$,,g;
+		$name =~ s,/,_,g;
+
+		return ($name, 0);
+	}
+	if (!($git[0] =~ m,^(https|http|git|git\+ssh|ssh):\/\/,)) {
 		my $name = $git[0];
 		$name =~ s,\s*$,,;
 		$name =~ s,/$,,;
